@@ -12,6 +12,7 @@ public interface AuthRepository {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void create(UserModel userAuthEntity);
 
+
     @Select("SELECT * FROM users WHERE username = #{username}")
     @Results({@Result(property = "id", column = "id"),
             @Result(property = "username", column = "username"),
@@ -46,4 +47,14 @@ public interface AuthRepository {
 
     @Delete("DELETE FROM users WHERE id = #{id}")
     void delete(@Param("id") String id);
+
+
+    @Insert("INSERT INTO codes (email, code,created_at,id) " +
+            "VALUES (#{email}, #{code},NOW(), gen_random_uuid())")
+    void generateCode(@Param("email") String email, @Param("code") String code);
+    @Select("SELECT code FROM codes WHERE email = #{email}")
+    String getCodeByEmail(@Param("email") String email);
+    @Delete("DELETE FROM codes WHERE email = #{email}")
+    void deleteCode(@Param("email") String email);
+
 }
