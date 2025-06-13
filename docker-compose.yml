@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: db
+    volumes:
+      - ./docker/init/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"  # Expose Postgres on port 5433
+
+
